@@ -1,34 +1,30 @@
-import React from "react";
-import { View, StyleSheet } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { ActivityIndicator, View } from "react-native";
+import CustomMap from "@/presentation/components/maps/CustomMap";
+import { useLocationStore } from "@/presentation/store/useLocationStore";
+import { useEffect } from "react";
 
 const MapScreen = () => {
+  const { lastKnowLocation, getLocation } = useLocationStore();
+
+  useEffect(() => {
+    if (lastKnowLocation === null) {
+      getLocation();
+    }
+  }, []);
+
+  if (lastKnowLocation === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator />
+      </View>
+    );
+  }
+
   return (
-    <View style={style.container}>
-      <MapView
-        style={style.map}
-        provider={PROVIDER_GOOGLE}
-        initialRegion={{
-          latitude: 19.409898,
-          longitude: -99.179717,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      />
+    <View>
+      <CustomMap initialLocation={lastKnowLocation} />
     </View>
   );
 };
 
 export default MapScreen;
-
-const style = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  map: {
-    width: "100%",
-    height: "100%",
-  },
-});
