@@ -14,7 +14,16 @@ const MapScreen = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-      />
+      >
+        <Marker
+          coordinate={{
+            latitude: 19.409898,
+            longitude: -99.179717,
+          }}
+          title="Aqui Estoy"
+          description="Esta es mi casa en CDMX"
+        />
+      </MapView>
     </View>
   );
 };
